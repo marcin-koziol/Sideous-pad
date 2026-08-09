@@ -1,0 +1,55 @@
+name: build
+
+# Builds the sideous-pad VST3/LV2/CLAP plugin for Linux, Windows, and macOS.
+# Same CI approach as sideous/sideous-drums/sideous-noise - see those repos'
+# comments for the full rationale on distrho/dpf-cmake-action + pawpaw.
+
+on:
+  push:
+    branches: ['*']
+    tags: ['v*']
+  pull_request:
+    branches: ['*']
+
+env:
+  NAME: sideous-pad
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: distrho/dpf-cmake-action@v1
+        with:
+          target: linux-x86_64
+          dpf_path: dpf
+          pawpaw: true
+
+  windows:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: distrho/dpf-cmake-action@v1
+        with:
+          target: win64
+          dpf_path: dpf
+          pawpaw: true
+
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: distrho/dpf-cmake-action@v1
+        with:
+          target: macos-universal
+          dpf_path: dpf
+          pawpaw: true
