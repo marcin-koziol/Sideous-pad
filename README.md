@@ -1,5 +1,7 @@
 # Sideous Pad
 
+![build](https://github.com/marcin-koziol/Sideous-pad/actions/workflows/build.yml/badge.svg)
+
 > **⚠️ VIBE CODED SLOP.** This entire plugin — DSP, GUI, CI — was built through
 > conversational back-and-forth with an AI, not hand-engineered from a spec.
 > It works, it's been tested, but go in with appropriate expectations.
