@@ -47,6 +47,26 @@ the Vowel knob itself for a slow "talking pad" effect.
   end-to-end so unison width survives the formant/filter stages
 - Knobs show live values while being automated, not just while dragging
 
+## Presets
+
+A small file-based preset library, independent of any host preset mechanism
+(so it works identically in every plugin format, including the JACK
+standalone, which has no host browser at all). Prev/Next cycle through the
+library, the name field is click-to-rename, and Save/Delete write/remove a
+plain-text `.sppreset` file — one `symbol=value` line per parameter, keyed by
+stable names so presets survive future parameter reordering.
+
+Presets live in `~/.local/share/sideous-pad/presets` (Linux),
+`~/Library/Application Support/sideous-pad/presets` (macOS), or
+`%APPDATA%\sideous-pad\presets` (Windows) — ordinary files, safe to back up,
+share, or edit by hand.
+
+Eight factory presets are seeded automatically the first time the library is
+empty: **Angelic Choir**, **8-Bit Cathedral**, **Talking Synth Voice**,
+**Retro Saw Pad**, **Vocoder Stab**, **Ghost Choir**, **Wobbly Vowels**, and
+**Chip Chorus Lead** — between them covering all three Voice Modes and the
+LFO→Vowel "talking pad" trick.
+
 ## Building
 
 ```sh

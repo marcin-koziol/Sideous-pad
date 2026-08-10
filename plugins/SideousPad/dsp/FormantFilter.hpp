@@ -15,9 +15,19 @@
  * setResonance()'s 0..1 knob is remapped to a narrower, higher-Q slice of
  * Filter.hpp's own resonance curve than the general filter uses (real vocal
  * formants are much sharper peaks than a musically-useful lowpass
- * resonance), with a makeup-gain compensating for the energy a narrower
- * band naturally loses from a harmonic-rich source - without both of these
- * the vowel morph is barely audible even at extreme Vowel knob settings.
+ * resonance), plus a small makeup gain since a narrower band passes less of
+ * a harmonic-rich source's energy - without both of these the vowel morph
+ * is barely audible even at extreme Vowel knob settings.
+ *
+ * Keep the makeup gain modest: three parallel bandpasses already sum to
+ * more energy than the dry input on their own (each captures a different
+ * slice of the harmonic series), and this stage runs per-voice under an
+ * 8-voice polyphonic mix - stacking a large multiplier on top of that,
+ * across a full chord, blew well past 0dBFS into harsh, audibly "screaming"
+ * clipping at the master limiter (measured ~2x full scale on just a 4-note
+ * chord at defaults before this was dialed back - see git history for the
+ * numbers). Re-check with a multi-voice chord (not a single sustained note)
+ * before raising either constant again.
  */
 
 #pragma once
@@ -46,17 +56,17 @@ public:
     }
 
     // shared Q across all three bands, 0..1. Remapped into a narrower,
-    // consistently-resonant slice of Filter's own 0..1 curve (roughly Q 1.7
-    // at knob=0 up to Q 13 at knob=1, never reaching self-oscillation) plus
-    // a makeup gain that grows with Q to counter the energy a narrower band
-    // naturally loses from a harmonic-rich source - see file header.
+    // consistently-resonant slice of Filter's own 0..1 curve (roughly Q 1.5
+    // at knob=0 up to Q 4.5 at knob=1 - deliberately kept well short of
+    // self-oscillation, both for stability and headroom) plus a modest
+    // makeup gain - see file header for why both are kept conservative.
     void setResonance(float res01) noexcept
     {
         res01 = std::clamp(res01, 0.0f, 1.0f);
-        const float sharpened = 0.6f + res01 * 0.35f;
+        const float sharpened = 0.55f + res01 * 0.3f;
         for (Filter& band : fBands)
             band.setResonance(sharpened);
-        fMakeupGain = 0.6f + res01 * 2.2f;
+        fMakeupGain = 0.35f + res01 * 0.5f;
     }
 
     // 0..4, continuous - interpolates between adjacent rows of kTable
