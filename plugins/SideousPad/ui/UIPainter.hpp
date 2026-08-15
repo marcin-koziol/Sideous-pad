@@ -183,19 +183,19 @@ inline Layout buildLayout(float width, float height)
     L.width = width;
     L.height = height;
 
-    const float margin = 16.0f;
-    const float gap = 14.0f;
+    const float margin = 12.0f;
+    const float gap = 8.0f;
     const float colW = (width - margin * 2.0f - gap) / 2.0f;
     const float colBx = margin + colW + gap;
     const float fullW = width - margin * 2.0f;
 
     // preset bar: full width, everything else starts below it
-    const float presetBarY = 64.0f, presetBarH = 40.0f;
+    const float presetBarY = 48.0f, presetBarH = 36.0f;
 
-    const float modeY = presetBarY + presetBarH + gap, modeH = 34.0f;
-    const float row1Y = modeY + modeH + gap, row1H = 190.0f;
-    const float row2Y = row1Y + row1H + gap, row2H = 190.0f;
-    const float row3Y = row2Y + row2H + gap, row3H = 190.0f;
+    const float modeY = presetBarY + presetBarH + gap, modeH = 28.0f;
+    const float row1Y = modeY + modeH + gap, row1H = 140.0f;
+    const float row2Y = row1Y + row1H + gap, row2H = 170.0f;
+    const float row3Y = row2Y + row2H + gap, row3H = 150.0f;
     const float barY  = row3Y + row3H + gap, barH = height - barY - margin;
 
     // --- preset bar --- (left-to-right: prev/next, name field filling the
@@ -246,11 +246,11 @@ inline Layout buildLayout(float width, float height)
         Selector wave;
         wave.param = kParamUnisonWaveform;
         wave.accent = p.accent;
-        wave.x = p.x + 14.0f; wave.y = p.y + 34.0f; wave.w = p.w - 28.0f; wave.h = 28.0f;
+        wave.x = p.x + 12.0f; wave.y = p.y + 26.0f; wave.w = p.w - 24.0f; wave.h = 24.0f;
         wave.options = { { 0.0f, "SAW" }, { 1.0f, "PULSE" }, { 2.0f, "TRI" } };
         L.selectors.push_back(wave);
 
-        addKnobRow(L.knobs, p.x, p.w, wave.y + wave.h + 56.0f, 20.0f, p.accent,
+        addKnobRow(L.knobs, p.x, p.w, wave.y + wave.h + 40.0f, 18.0f, p.accent,
                    {
                        { kParamUnisonVoices,      "VOICES" },
                        { kParamUnisonDetune,      "DETUNE" },
@@ -263,7 +263,7 @@ inline Layout buildLayout(float width, float height)
     // --- Formant (Vowel) ---
     {
         const PanelBox& p = L.panels[1];
-        addKnobRow(L.knobs, p.x, p.w, p.y + 34.0f + 80.0f, 30.0f, p.accent,
+        addKnobRow(L.knobs, p.x, p.w, p.y + 26.0f + 44.0f, 26.0f, p.accent,
                    {
                        { kParamVowel,             "VOWEL" },
                        { kParamFormantAmount,     "AMOUNT" },
@@ -277,7 +277,7 @@ inline Layout buildLayout(float width, float height)
         Dropdown mode;
         mode.param = kParamFilterMode;
         mode.accent = p.accent;
-        mode.x = p.x + 14.0f; mode.y = p.y + 34.0f; mode.w = p.w - 28.0f; mode.h = 30.0f;
+        mode.x = p.x + 12.0f; mode.y = p.y + 26.0f; mode.w = p.w - 24.0f; mode.h = 24.0f;
         mode.options = {
             { 0.0f, "LOWPASS 12dB" },
             { 1.0f, "LOWPASS 24dB" },
@@ -288,7 +288,7 @@ inline Layout buildLayout(float width, float height)
         };
         L.dropdowns.push_back(mode);
 
-        addKnobRow(L.knobs, p.x, p.w, p.y + 34.0f + 30.0f + 56.0f, 26.0f, p.accent,
+        addKnobRow(L.knobs, p.x, p.w, p.y + 26.0f + 24.0f + 40.0f, 22.0f, p.accent,
                    {
                        { kParamFilterCutoff,    "CUTOFF" },
                        { kParamFilterResonance, "RESO" },
@@ -303,25 +303,25 @@ inline Layout buildLayout(float width, float height)
         Selector wave;
         wave.param = kParamLfoWaveform;
         wave.accent = p.accent;
-        wave.x = p.x + 14.0f; wave.y = p.y + 34.0f; wave.w = p.w * 0.48f; wave.h = 28.0f;
+        wave.x = p.x + 12.0f; wave.y = p.y + 26.0f; wave.w = p.w * 0.48f; wave.h = 24.0f;
         wave.options = { { 0.0f, "SINE" }, { 1.0f, "SAW" }, { 2.0f, "SQR" }, { 3.0f, "GATE" }, { 4.0f, "S&H" } };
         L.selectors.push_back(wave);
 
         Selector dest;
         dest.param = kParamLfoDestination;
         dest.accent = p.accent;
-        dest.x = wave.x + wave.w + 10.0f; dest.y = wave.y; dest.w = (p.x + p.w - 14.0f) - dest.x; dest.h = 28.0f;
+        dest.x = wave.x + wave.w + 8.0f; dest.y = wave.y; dest.w = (p.x + p.w - 12.0f) - dest.x; dest.h = 24.0f;
         dest.options = { { 0.0f, "PITCH" }, { 1.0f, "CUTOFF" }, { 2.0f, "AMP" }, { 3.0f, "VOWEL" } };
         L.selectors.push_back(dest);
 
         Dropdown sync;
         sync.param = kParamLfoSync;
         sync.accent = p.accent;
-        sync.x = p.x + 14.0f; sync.y = wave.y + wave.h + 14.0f; sync.w = p.w - 28.0f; sync.h = 28.0f;
+        sync.x = p.x + 12.0f; sync.y = wave.y + wave.h + 8.0f; sync.w = p.w - 24.0f; sync.h = 24.0f;
         sync.options = syncOptions();
         L.dropdowns.push_back(sync);
 
-        addKnobRow(L.knobs, p.x, p.w, sync.y + sync.h + 40.0f, 22.0f, p.accent,
+        addKnobRow(L.knobs, p.x, p.w, sync.y + sync.h + 32.0f, 20.0f, p.accent,
                    {
                        { kParamLfoWidth,  "WIDTH" },
                        { kParamLfoRateHz, "RATE" },
@@ -332,8 +332,8 @@ inline Layout buildLayout(float width, float height)
     // --- Envelope (full width) ---
     {
         const PanelBox& p = L.panels[4];
-        const float rowY = p.y + 34.0f + 40.0f;
-        addKnobRow(L.knobs, p.x, p.w, rowY, 26.0f, p.accent,
+        const float rowY = p.y + 26.0f + 30.0f;
+        addKnobRow(L.knobs, p.x, p.w, rowY, 20.0f, p.accent,
                    {
                        { kParamAmpAttack,          "ATTACK" },
                        { kParamAmpDecay,            "DECAY" },
@@ -345,7 +345,7 @@ inline Layout buildLayout(float width, float height)
 
         L.envelopeGraphs.push_back({
             kParamAmpAttack, kParamAmpDecay, kParamAmpSustain, kParamAmpRelease, kParamAmpCurve,
-            p.x + 14.0f, rowY + 26.0f + 28.0f, p.w - 28.0f, 46.0f, p.accent });
+            p.x + 12.0f, rowY + 20.0f + 22.0f, p.w - 24.0f, 38.0f, p.accent });
     }
 
     // --- bottom bar: master + performance controls ---
@@ -353,18 +353,18 @@ inline Layout buildLayout(float width, float height)
         const PanelBox& p = L.panels[5];
         const float cy = p.y + p.h * 0.5f;
 
-        L.knobs.push_back({ kParamMasterVolume, p.x + 50.0f,  cy, 26.0f, "VOLUME", p.accent });
-        L.knobs.push_back({ kParamMasterDrive,  p.x + 120.0f, cy, 22.0f, "DRIVE",  p.accent });
+        L.knobs.push_back({ kParamMasterVolume, p.x + 44.0f,  cy, 20.0f, "VOLUME", p.accent });
+        L.knobs.push_back({ kParamMasterDrive,  p.x + 104.0f, cy, 17.0f, "DRIVE",  p.accent });
 
-        L.knobs.push_back({ kParamPitchBendRange, p.x + 185.0f, cy, 20.0f, "BEND", p.accent });
+        L.knobs.push_back({ kParamPitchBendRange, p.x + 160.0f, cy, 16.0f, "BEND", p.accent });
 
-        L.knobs.push_back({ kParamModWheelAmount, p.x + 260.0f, cy, 20.0f, "MW AMT", p.accent });
+        L.knobs.push_back({ kParamModWheelAmount, p.x + 220.0f, cy, 16.0f, "MW AMT", p.accent });
 
         Selector modWheel;
         modWheel.param = kParamModWheelDestination;
         modWheel.accent = p.accent;
         modWheel.caption = "MOD WHEEL";
-        modWheel.x = p.x + 300.0f; modWheel.y = cy - 14.0f; modWheel.w = (p.x + p.w - 14.0f) - modWheel.x; modWheel.h = 28.0f;
+        modWheel.x = p.x + 260.0f; modWheel.y = cy - 12.0f; modWheel.w = (p.x + p.w - 12.0f) - modWheel.x; modWheel.h = 24.0f;
         modWheel.options = { { 0.0f, "OFF" }, { 1.0f, "VIBRATO" }, { 2.0f, "CUTOFF" }, { 3.0f, "VOLUME" }, { 4.0f, "VOWEL" } };
         L.selectors.push_back(modWheel);
     }
@@ -875,12 +875,6 @@ inline void paint(cairo_t* cr, const Layout& L, const PaintState& state)
         cairo_text_extents(cr, subtitle, &ext);
         drawText(cr, subtitle, L.width - 20.0 - ext.width, 24.0);
     }
-
-    setColor(cr, kPanelEdge, 0.5);
-    cairo_set_line_width(cr, 1.0);
-    cairo_move_to(cr, 16.0, 54.0);
-    cairo_line_to(cr, L.width - 16.0, 54.0);
-    cairo_stroke(cr);
 
     paintPresetBar(cr, L.presetBar, state);
 
